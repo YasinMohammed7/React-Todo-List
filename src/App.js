@@ -62,7 +62,7 @@ function App() {
         handlerDelete={handlerDelete}
       />
 
-      <Footer
+      <Footer length={items.length}
       />
     </div>
   );
