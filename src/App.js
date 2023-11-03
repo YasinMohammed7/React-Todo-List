@@ -1,7 +1,7 @@
 import Header from './Header';
 import Content from './Content';
 import Footer from './Footer';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import AddItem from './AddItem';
 import SearchItem from './SearchItem';
 
@@ -10,21 +10,18 @@ function App() {
   const [newItem, setNewItem] = useState('')
   const [search, setSearch] = useState('')
 
-  const setAndSaveItems = (newItems) => {
-    setItems(newItems);
-    localStorage.setItem('shoppinglist', JSON.stringify(newItems));
-  }
+  useEffect(() => {
+    localStorage.setItem('shoppinglist', JSON.stringify(items));
+  }, [items])
 
   const handlerCheck = (id) => {
     const listItems = items.map(item => item.id === id ? { ...item, checked: !item.checked } : item)
     setItems(listItems)
-    setAndSaveItems(listItems)
   }
 
   const handlerDelete = (id) => {
     const removeItem = items.filter(item => item.id !== id)
     setItems(removeItem)
-    setAndSaveItems(removeItem)
   }
 
   const addItems = (item) => {
@@ -32,7 +29,6 @@ function App() {
     const myNewItem = { id, checked: false, item }
     const listItems = [...items, myNewItem]
     setItems(listItems)
-    setAndSaveItems(listItems)
   }
 
   const handleSubmit = (e) => {
